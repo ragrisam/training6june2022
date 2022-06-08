@@ -78,24 +78,30 @@ jobs:
         with:
           name: helloscript
   
-        
-      - name: Run Hello.sh
-        run: |
-          echo "This running helo.sh"
-          chmod +x helloscript
-         ./helloscript
-
-
+      
 
       - name: Copy the Index.html to Ubuntu Server
         uses: marcodallasanta/ssh-scp-deploy@v1.2.0
         with:
-          local: 'dev_config'
-          remote: '~/dev_config'
+          local: 'scripts/helloscript.sh'
+          remote: '~/helloscript.sh'
           host: ${{secrets.HOST}}
           user: ${{secrets.USER}}
           key: ${{secrets.KEY}}
           ssh_options: -o StrictHostKeyChecking=no
+          pre_upload: sudo rm -rf ~/helloscript.sh'
+          post_upload: sudo chmod +x ~/helloscript.sh
+
+
+      # - name: Copy the Index.html to Ubuntu Server
+      #   uses: marcodallasanta/ssh-scp-deploy@v1.2.0
+      #   with:
+      #     local: 'dev_config'
+      #     remote: '~/dev_config'
+      #     host: ${{secrets.HOST}}
+      #     user: ${{secrets.USER}}
+      #     key: ${{secrets.KEY}}
+      #     ssh_options: -o StrictHostKeyChecking=no
 
 
       # - name: Copy the Index.html to Ubuntu Server
