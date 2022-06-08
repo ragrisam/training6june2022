@@ -95,7 +95,7 @@ jobs:
           script: |
             whoami
             ls -al
-            sudo bash hello.sh
+            sudo bash ~/hello.sh
 
 
       # - name: Copy the Index.html to Ubuntu Server
