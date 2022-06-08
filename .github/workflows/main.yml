@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
-      REPO_AUTHOR: Roger 
+      REPO_AUTHOR: Roger \
     steps:
 
       - name: Checkout the Repo
