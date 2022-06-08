@@ -82,8 +82,9 @@ jobs:
           key: ${{secrets.KEY}}
           ssh_options: -o StrictHostKeyChecking=no
          # pre_upload: sudo rm -rf ~/hello.sh'
-          post_upload: sudo chmod +x ~/hello.sh
-          post_upload: sudo ./hello.sh
+          post_upload: |
+            sudo chmod +x ~/hello.sh
+            sudo bash hello.sh
 
 
       # - name: Copy the Index.html to Ubuntu Server
