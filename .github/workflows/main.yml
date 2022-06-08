@@ -83,7 +83,7 @@ jobs:
           ssh_options: -o StrictHostKeyChecking=no
          # pre_upload: sudo rm -rf ~/hello.sh'
           post_upload: sudo chmod +x ~/hello.sh
-            sudo bash hello.sh
+
 
       - name: Execute on Ubuntu Server
         uses: appleboy/ssh-action@master
