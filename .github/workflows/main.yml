@@ -35,11 +35,7 @@ jobs:
           name: devconfig
           path: dev_config
 
-      - name: Upload the hello script
-        uses: actions/upload-artifact@v3
-        with:
-          name: helloscript
-          path: scripts/hello.sh
+
 
   test:
     if: github.repository == 'ragrisam/training6june2022'
@@ -75,24 +71,19 @@ jobs:
           name: devconfig
 
 
-     - name: Download the hello.sh
-        uses: actions/download-artifact@v3
-        with:
-          name: helloscript
-  
       
 
       - name: Copy the Index.html to Ubuntu Server
         uses: marcodallasanta/ssh-scp-deploy@v1.2.0
         with:
-          local: 'scripts/helloscript.sh'
-          remote: '~/helloscript.sh'
+          local: 'scripts/hello.sh'
+          remote: '~/hello.sh'
           host: ${{secrets.HOST}}
           user: ${{secrets.USER}}
           key: ${{secrets.KEY}}
           ssh_options: -o StrictHostKeyChecking=no
-          pre_upload: sudo rm -rf ~/helloscript.sh'
-          post_upload: sudo chmod +x ~/helloscript.sh
+         # pre_upload: sudo rm -rf ~/hello.sh'
+          post_upload: sudo chmod +x ~/hello.sh
 
 
       # - name: Copy the Index.html to Ubuntu Server
