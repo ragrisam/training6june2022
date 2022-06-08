@@ -53,7 +53,7 @@ jobs:
           local: 'index.html'
           remote: '~/index.html'
           host: ${{secrets.HOST}}
-          port: ${{secrets.PORT}}
+         # port: ${{secrets.PORT}}
           user: ${{secrets.USER}}
           password: ${{secrets.PASSWORD}} 
           key: ${{secrets.KEY}}
