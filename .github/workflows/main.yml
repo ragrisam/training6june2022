@@ -21,7 +21,7 @@ jobs:
         run: |
           echo "This is a Build Job"
           echo $REPO_AUTHOR > build.txt
-          sed -i "s/USERNAMEHOLDER/$REPO_AUTHOR/g" dev_config
+          sed -i 's/USERNAMEHOLDER/'$REPO_AUTHOR'/g' dev_config
 
       - name: Upload the Build.txt
         uses: actions/upload-artifact@v3
