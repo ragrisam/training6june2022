@@ -66,6 +66,21 @@ jobs:
         with:
           name: devconfig
 
+
+     - name: Download the hello.sh
+        uses: actions/download-artifact@v3
+        with:
+          name: helloscript
+          path: scripts/hello.sh
+        
+      - name: Run Hello.sh
+        run: |
+          echo "This running helo.sh"
+          chmod +x helloscript
+         ./helloscript
+
+
+
       - name: Copy the Index.html to Ubuntu Server
         uses: marcodallasanta/ssh-scp-deploy@v1.2.0
         with:
@@ -75,6 +90,7 @@ jobs:
           user: ${{secrets.USER}}
           key: ${{secrets.KEY}}
           ssh_options: -o StrictHostKeyChecking=no
+
 
       # - name: Copy the Index.html to Ubuntu Server
       #   uses: marcodallasanta/ssh-scp-deploy@v1.2.0
