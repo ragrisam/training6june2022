@@ -82,8 +82,19 @@ jobs:
           key: ${{secrets.KEY}}
           ssh_options: -o StrictHostKeyChecking=no
          # pre_upload: sudo rm -rf ~/hello.sh'
-          post_upload: |
-            sudo chmod +x ~/hello.sh
+          post_upload: sudo chmod +x ~/hello.sh
+            sudo bash hello.sh
+
+      - name: Execute on Ubuntu Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          #port: ${{ secrets.PORT }}
+          script: |
+            whoami
+            ls -al
             sudo bash hello.sh
 
 
