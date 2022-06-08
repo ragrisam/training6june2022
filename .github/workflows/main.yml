@@ -70,8 +70,7 @@ jobs:
         with:
           name: devconfig
 
-
-      
+    
 
       - name: Copy the Index.html to Ubuntu Server
         uses: marcodallasanta/ssh-scp-deploy@v1.2.0
