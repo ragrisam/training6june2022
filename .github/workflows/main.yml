@@ -1,62 +1,89 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Static HTML Deployment to Ubuntu Server
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
-    branches: [ "main" ]
-  # pull_request:
-  #   branches: [ "main" ]
+    branches: ["main"]
 
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    timeout-minutes: 60
+    env:
+      REPO_AUTHOR: nishanth
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-     
-      # # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+
+      - name: Checkout the Repo
+        uses: actions/checkout@v3
+
+      - name: Simple Build Print Statement
+        run: |
+          echo "This is a Build Job"
+          echo $REPO_AUTHOR > build.txt
+          sed -i 's/USERNAMEHOLDER/'$REPO_AUTHOR'/g' dev_config
+
+      - name: Upload the Build.txt
+        uses: actions/upload-artifact@v3
+        with:
+          name: buildfile
+          path: build.txt
+
+      - name: Upload the dev_config
+        uses: actions/upload-artifact@v3
+        with:
+          name: devconfig
+          path: dev_config
 
   test:
+    if: github.repository == 'ragrisam/training6june2022'
     runs-on: ubuntu-latest
     steps:
-      
-      - name: Run a one-line script
-        run: echo 'This is test'
+      - name: Simple Test Print Statement
+        run: echo "This is a test Job"
+
 
   deployment:
     runs-on: ubuntu-latest
+
     steps:
 
-      - name: Check out the code
+      - name: Checkout the Code
         uses: actions/checkout@v3
 
-      - name: Present working directory
+      - name: Present Working Directory
         run: |
           pwd
           ls -la
 
-      - name: ssh-scp-deploy
+      - name: Download the Build.txt file
+        uses: actions/download-artifact@v3
+        with:
+          name: buildfile
+
+      - name: Download the devconfig
+        uses: actions/download-artifact@v3
+        with:
+          name: devconfig
+
+      - name: Copy the Index.html to Ubuntu Server
         uses: marcodallasanta/ssh-scp-deploy@v1.2.0
         with:
-          local: 'index.html'
-          remote: '~/index.html'
+          local: 'dev_config'
+          remote: '~/dev_config'
           host: ${{secrets.HOST}}
-         # port: ${{secrets.PORT}}
           user: ${{secrets.USER}}
-          password: ${{secrets.PASSWORD}} 
           key: ${{secrets.KEY}}
-          pre_upload: sudo rm -rf /var/www.html/index.html
-          post_upload: sudo mv ~/index.html /var/www/html/index.html
           ssh_options: -o StrictHostKeyChecking=no
+
+      # - name: Copy the Index.html to Ubuntu Server
+      #   uses: marcodallasanta/ssh-scp-deploy@v1.2.0
+      #   with:
+      #     local: 'index.html'
+      #     remote: '~/index.html'
+      #     host: ${{secrets.HOST}}
+      #     user: ${{secrets.USER}}
+      #     key: ${{secrets.KEY}}
+      #     pre_upload: sudo rm -rf /var/www/html/index.html
+      #     post_upload: sudo mv ~/index.html /var/www/html/index.html
+      #     ssh_options: -o StrictHostKeyChecking=no
