@@ -33,7 +33,7 @@ jobs:
     steps:
       
       - name: Run a one-line script
-        run: echo Hello, world!
+        run: echo 'This is test'
 
   deployment:
     runs-on: ubuntu-latest
